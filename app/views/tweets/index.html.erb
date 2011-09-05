@@ -1,0 +1,55 @@
+<section id="sidebar">
+
+	<%= link_to "Synchronise", synchronise_url, :id => "synchronise", :rel => "nofollow" %>
+
+	<section id="tag-list">
+		<h3>Tag List</h3>
+		<% @tags.group_by(&:initial).sort.each do |initial,tags| %>
+			<h4><%= initial %></h4>
+			<ul>
+			<% tags.uniq.sort_by(&:name).each do |tag| %>
+				<li><%= link_to "#{tag}", tag_list_path(tag.name) %></li>
+			<% end %>
+			</ul>
+		<% end %>
+	</section><!-- #tag-list -->
+	
+</section><!-- #sidebar -->
+
+<% if @tweets.empty? %>
+
+	<p id="first-time">Hi! First time here? Just hit the synchronise button on the right and your favorite tweets will be magically pulled into your account.</p>
+
+<% else %>
+	<section id="tweet-list">
+		
+		<% for tweet in @tweets %>
+	
+		<div id="tweet_<%= tweet.id %>" class="tweet">
+			
+			<h4><%= link_to tweet.tweet_user_screen_name, "http://twitter.com/#{tweet.tweet_user_screen_name}" %>&nbsp;<span class="tweet_created_at"><%= time_ago_in_words(tweet.tweet_created_at) %> ago</span></h4>
+			
+			<%= image_tag("#{tweet.tweet_user_profile_image_url}", :class => "tweet-user-image") %>
+		
+			<p>
+				<span class="tweet-text"><%= tweet.tweet_text %></span>
+				<% tweet.tags_from(current_user).each do |tag| %>
+					<span class="tag" id="tag_<%= tag %>"><%= link_to "#{tag}", tag_list_path(tag) %></span>
+				<% end %>
+				<%= link_to "edit tags", {}, :remote => true, :class => "edit-tags" %>
+			</p>
+		
+			<%= form_tag "/tweets/#{tweet.id}/tags", :class => "tag-form" do %>
+				<%= text_field_tag "tags", "#{tweet.tags_from(current_user)}", :id => "tags_tweet_#{tweet.id}" %><%= submit_tag "#{tweet.taggings_count > 0 ? 'Update tags' : 'Add tags'}" %> <%= link_to "cancel", {}, :remote => true, :class => "cancel-tag-edit" %>
+			<% end %>
+		
+		</div><!-- .tweet -->
+	
+		<br class="clear" />
+
+		<% end %>
+		
+	</section><!-- #tweet-list -->
+<% end %>
+
+<br class="clear">

@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  tweet_id: "12345"
+  tweet_created_at: 2010-06-06 11:47:37
+  tweet_text: "Hi, this is a test"
+  tweet_user_name: "Robin Fisher"
+  tweet_user_screen_name: "robinjfisher"
+  tweet_user_profile_image_url: "http://blah.com/pic.jpg"
+
+two:
+  user_id: 1
+  tweet_id: "54321"
+  tweet_created_at: 2010-06-06 11:47:37
+  tweet_text: "Another tweet from me"
+  tweet_user_name: "Robin Fisher"
+  tweet_user_screen_name: "robinjfisher"
+  tweet_user_profile_image_url: "http://blah.com/pic.jpg"

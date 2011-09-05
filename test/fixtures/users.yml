@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  screen_name: robinjfisher
+  name: Robin Fisher
+  token: 83791273921873297392739217938217
+  secret: 8927398712398721938721938721938721
+
+two:
+  screen_name: jaaaye
+  name: Jaye Fisher
+  token: 328974329843294329
+  secret: 9483274902387423907

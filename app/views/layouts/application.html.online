@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Favourtweets</title>
+
+	<!-- Meta tags -->
+	<%= csrf_meta_tag %>
+	<meta name="description" content="Allows users to synchronise, tag and organise their favorite tweets">
+	<meta name="keywords" content="twitter, tweets, tweet, favorite tweets">
+
+	<!-- Stylesheets -->
+  <%= stylesheet_link_tag "screen" %>
+
+	<!-- Javascript -->
+  <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js" %>
+	<%= javascript_include_tag "modernizr-1.1.min" %>
+	<%= javascript_include_tag "rails" %>
+	<%= javascript_include_tag "application" %>
+	
+	<!-- [if IE]>
+	<%= javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js" %>
+	<![endif]-->
+	
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-861396-11']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
+	
+</head>
+<body id="<%= action_name %>">
+	
+	<header>
+		<div class="wrapper">
+			<nav id="main">
+				<ul>
+					<li><%= link_to "Home", root_url %></li>
+					<li><% if session[:user] == nil %><%= link_to "Connect with Twitter", connect_url, :id => "twitter-button" %><% else %><%= link_to "Disconnect", disconnect_url, :id => "twitter-button" %><% end %></li>
+				</ul>
+			</nav>
+			<h1>Favourtweets</h1>
+		</div><!-- .wrapper -->
+	</header>
+	
+	<section id="flash">
+	  <% flash.each do |key, value| -%>
+	    <div id="flash_<%= key %>"><%= value.html_safe %></div>
+	  <% end -%>
+	</section>
+	
+		<section id="content">
+			
+			<% if !current_user.nil? %>
+			
+				<h2><%= current_user.screen_name %></h2>
+				
+				<nav id="filters">
+					<ul>
+						<li><%= link_to "All", categorised_favorites_path(:category => "all"), :class => "#{@all ? 'current' : 'non-current'}" %></li>
+						<li><%= link_to "Tagged", categorised_favorites_path(:category => "tagged"), :class => "#{@tagged ? 'current' : 'non-current'}" %></li>
+						<li><%= link_to "Untagged", categorised_favorites_path(:category => "untagged"), :class => "#{@untagged ? 'current' : 'non-current'}" %></li>
+					</ul>
+				</nav>
+			
+				<br class="clear" />
+			<% end %>
+
+			<%= yield %>
+			
+		</section><!-- #content -->
+
+		<footer>
+			<p>Favourtweets.com is brought to you by <%= link_to "captured sparks", "http://capturedsparks.com" %>. &copy; captured sparks 2010.</p>
+		</footer>
+</body>
+</html>
